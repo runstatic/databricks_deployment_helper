@@ -1,0 +1,5 @@
+{
+    "pipeline_name": "Complex Pipeline: Example Multi Task Explicit - Processing",
+    "input_table_location": "/path/to/input/table",
+    "output_table_location": "/path/to/output/table"
+}

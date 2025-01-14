@@ -1,0 +1,11 @@
+Metadata-Version: 2.1
+Name: databricks_deployment_helper
+Version: 0.2
+Summary: A set of python classes to define databricks job
+Home-page: https://github.com/runtastic/databricks-deployment-helper
+Author: Emanuele Viglianisi, David Hohensinn, Philip Buttinger
+Author-email: emanuele.viglianisi@runtastic.com, breaka@gmx.at, philip.buttinger@runtastic.com
+License-File: LICENSE
+Requires-Dist: pyyaml==6.0
+Requires-Dist: gitpython==3.1.43
+Requires-Dist: glom==23.3.0

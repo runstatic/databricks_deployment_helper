@@ -1,0 +1,43 @@
+# Runs Databricks tests
+
+name: Test workflow
+
+on: workflow_dispatch
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    env:
+      DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST_DEV }}
+      DATABRICKS_CLIENT_ID: ${{ vars.DATABRICKS_CLIENT_ID_DEV }}
+      DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET_DEV }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10.6
+
+      - name: Install latest databricks-deployment-helper
+        run: |
+          pip install databricks_deployment_helper*.whl
+
+      - name: Install Databricks CLI
+        uses: databricks/setup-cli@v0.225.0
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Deploy test jobs
+        run: |
+          python -m deployment_tests
+          databricks bundle deploy -t tests
+
+      - name: Execute tests
+        run: |
+          set -o pipefail
+          databricks bundle run databricks_tests -t tests

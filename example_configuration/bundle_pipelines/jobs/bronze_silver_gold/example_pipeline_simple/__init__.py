@@ -1,0 +1,1 @@
+from jobs.bronze_silver_gold.example_pipeline_simple.deployment import jobs

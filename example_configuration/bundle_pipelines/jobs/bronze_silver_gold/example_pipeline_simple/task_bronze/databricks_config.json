@@ -1,0 +1,4 @@
+{
+  "pipeline_name": "Bronze: Example",
+  "bronze_table_location": "/path/to/bronze/table"
+}
