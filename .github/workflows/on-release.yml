@@ -1,0 +1,43 @@
+name: Release workflow
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+
+  build-and-upload-assets:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Repository checkout
+        uses: actions/checkout@v3
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8.14
+
+      - name: Bump new version
+        shell: "bash"
+        run: |
+          sed -i -E 's/version=.([^,]*)./version="${{ github.event.release.tag_name }}",/g' setup.py
+
+      - name: Install dependencies and build artifacts
+        shell: "bash"
+        run: |
+          pip install wheel
+          python setup.py bdist_wheel --verbose
+          
+      - name: Logs
+        shell: "bash"
+        run: |
+          cat setup.py
+          tree .
+
+      - name: Upload artifacts
+        run: gh release upload ${{ github.event.release.tag_name }} ${{ format('dist/databricks_deployment_helper-{0}-py3-none-any.whl', github.event.release.tag_name) }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+ 

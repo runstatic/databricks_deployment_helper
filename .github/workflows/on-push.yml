@@ -1,0 +1,24 @@
+name: On-push workflow
+
+on:
+  push:
+
+jobs:
+
+  run-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Repository checkout
+        uses: actions/checkout@v3
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8.14
+
+      - name: Run tests
+        run: |
+          pip install -e .
+          pip install pytest==7.4.0 pyyaml==6.0
+          pytest tests
