@@ -1,0 +1,6 @@
+{
+  "pipeline_name": "Gold: Example",
+  "silver_table_location": "/path/to/silver/table",
+  "gold_table_location": "/path/to/gold/table",
+  "gold_table_checkpoint_location": "/path/to/gold/checkpoint"
+}

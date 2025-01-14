@@ -1,0 +1,759 @@
+resources:
+  jobs:
+    _ad-hoc__bronze_complex:
+      job_clusters:
+      - job_cluster_key: cluster_complex_etl_bronze
+        new_cluster:
+          custom_tags:
+            ResourceClass: SingleNode
+            deployed_by: databricks_deployment_helper
+            entity: complex
+            entity_group: bronze_silver_gold_example
+            layer: bronze
+          data_security_mode: SINGLE_USER
+          driver_node_type_id: m5dn.xlarge
+          enable_elastic_disk: true
+          node_type_id: m5dn.xlarge
+          num_workers: 0
+          policy_id: ${var.job_policy_id}
+          runtime_engine: STANDARD
+          spark_conf:
+            spark.databricks.cluster.profile: singleNode
+            spark.master: local[*]
+          spark_version: 14.3.x-scala2.12
+      name: '[Ad-Hoc] Bronze: Complex'
+      tags:
+        entity: complex
+        entity_group: bronze_silver_gold_example
+        layer: bronze
+      tasks:
+      - depends_on: []
+        description: null
+        job_cluster_key: cluster_complex_etl_bronze
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        - whl: /Workspace${workspace.file_path}/example_configuration/dependencies/wheels/some_other_wheel.whl
+        - pypi:
+            package: pyyaml == 6.0
+        max_retries: 1
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_non_standard/task_bronze/databricks_config.json
+          - --secrets-config-location
+          - /Workspace${workspace.file_path}/shared_config/secrets_config.json
+          - --kafka-config-location
+          - /Workspace${workspace.file_path}/shared_config/kafka_config.json
+          python_file: example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_non_standard/task_bronze/pipeline_runner.py
+        task_key: bronze_complex
+    _ad-hoc__bronze_simple:
+      job_clusters:
+      - job_cluster_key: cluster_simple_etl_bronze
+        new_cluster:
+          custom_tags:
+            ResourceClass: SingleNode
+            deployed_by: databricks_deployment_helper
+            entity: simple
+            entity_group: bronze_silver_gold_example
+            layer: bronze
+          data_security_mode: SINGLE_USER
+          driver_node_type_id: m5dn.xlarge
+          enable_elastic_disk: true
+          node_type_id: m5dn.xlarge
+          num_workers: 0
+          policy_id: ${var.job_policy_id}
+          runtime_engine: STANDARD
+          spark_conf:
+            spark.databricks.cluster.profile: singleNode
+            spark.master: local[*]
+          spark_version: 14.3.x-scala2.12
+      name: '[Ad-Hoc] Bronze: Simple'
+      tags:
+        entity: simple
+        entity_group: bronze_silver_gold_example
+        layer: bronze
+      tasks:
+      - depends_on: []
+        description: null
+        job_cluster_key: cluster_simple_etl_bronze
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        - whl: /Workspace${workspace.file_path}/example_configuration/dependencies/wheels/some_other_wheel.whl
+        - pypi:
+            package: pyyaml == 6.0
+        max_retries: 1
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_simple/task_bronze/databricks_config.json
+          - --secrets-config-location
+          - /Workspace${workspace.file_path}/shared_config/secrets_config.json
+          - --kafka-config-location
+          - /Workspace${workspace.file_path}/shared_config/kafka_config.json
+          python_file: example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_simple/task_bronze/pipeline_runner.py
+        task_key: bronze_simple
+    _ad-hoc__gold_non_standard_example_1:
+      job_clusters:
+      - job_cluster_key: cluster_complex_etl_gold
+        new_cluster:
+          custom_tags:
+            ResourceClass: SingleNode
+            deployed_by: databricks_deployment_helper
+            entity: complex
+            entity_group: bronze_silver_gold_example
+            layer: gold
+          data_security_mode: SINGLE_USER
+          driver_node_type_id: c5a.4xlarge
+          enable_elastic_disk: true
+          node_type_id: c5a.4xlarge
+          num_workers: 0
+          policy_id: ${var.job_policy_id}
+          runtime_engine: STANDARD
+          spark_conf:
+            spark.databricks.cluster.profile: singleNode
+            spark.master: local[*]
+          spark_version: 14.3.x-scala2.12
+      name: '[Ad-Hoc] Gold: Non standard Example 1'
+      tags:
+        entity: complex
+        entity_group: bronze_silver_gold_example
+        layer: gold
+      tasks:
+      - depends_on: []
+        description: null
+        job_cluster_key: cluster_complex_etl_gold
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        max_retries: 1
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_non_standard/task_gold_1/databricks_config.json
+          python_file: example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_non_standard/task_gold_1/pipeline_runner.py
+        task_key: gold_1
+    _ad-hoc__gold_non_standard_example_2:
+      job_clusters:
+      - job_cluster_key: cluster_complex_etl_gold
+        new_cluster:
+          custom_tags:
+            ResourceClass: SingleNode
+            deployed_by: databricks_deployment_helper
+            entity: complex
+            entity_group: bronze_silver_gold_example
+            layer: gold
+          data_security_mode: SINGLE_USER
+          driver_node_type_id: c5a.4xlarge
+          enable_elastic_disk: true
+          node_type_id: c5a.4xlarge
+          num_workers: 0
+          policy_id: ${var.job_policy_id}
+          runtime_engine: STANDARD
+          spark_conf:
+            spark.databricks.cluster.profile: singleNode
+            spark.master: local[*]
+          spark_version: 14.3.x-scala2.12
+      name: '[Ad-Hoc] Gold: Non standard Example 2'
+      tags:
+        entity: complex
+        entity_group: bronze_silver_gold_example
+        layer: gold
+      tasks:
+      - depends_on: []
+        description: null
+        job_cluster_key: cluster_complex_etl_gold
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        max_retries: 1
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_non_standard/task_gold_2/databricks_config.json
+          python_file: example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_non_standard/task_gold_2/pipeline_runner.py
+        task_key: gold_2
+    _ad-hoc__gold_simple:
+      job_clusters:
+      - job_cluster_key: cluster_simple_etl_gold
+        new_cluster:
+          custom_tags:
+            ResourceClass: SingleNode
+            deployed_by: databricks_deployment_helper
+            entity: simple
+            entity_group: bronze_silver_gold_example
+            layer: gold
+          data_security_mode: SINGLE_USER
+          driver_node_type_id: c5a.4xlarge
+          enable_elastic_disk: true
+          node_type_id: c5a.4xlarge
+          num_workers: 0
+          policy_id: ${var.job_policy_id}
+          runtime_engine: STANDARD
+          spark_conf:
+            spark.databricks.cluster.profile: singleNode
+            spark.master: local[*]
+          spark_version: 14.3.x-scala2.12
+      name: '[Ad-Hoc] Gold: Simple'
+      tags:
+        entity: simple
+        entity_group: bronze_silver_gold_example
+        layer: gold
+      tasks:
+      - depends_on: []
+        description: null
+        job_cluster_key: cluster_simple_etl_gold
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        max_retries: 1
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_simple/task_gold/databricks_config.json
+          python_file: example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_simple/task_gold/pipeline_runner.py
+        task_key: gold_simple
+    _ad-hoc__silver_complex:
+      job_clusters:
+      - job_cluster_key: cluster_complex_etl_silver
+        new_cluster:
+          custom_tags:
+            ResourceClass: SingleNode
+            deployed_by: databricks_deployment_helper
+            entity: complex
+            entity_group: bronze_silver_gold_example
+            layer: silver
+          data_security_mode: SINGLE_USER
+          driver_node_type_id: c5a.4xlarge
+          enable_elastic_disk: true
+          node_type_id: c5a.4xlarge
+          num_workers: 0
+          policy_id: ${var.job_policy_id}
+          runtime_engine: STANDARD
+          spark_conf:
+            spark.databricks.cluster.profile: singleNode
+            spark.master: local[*]
+          spark_version: 14.3.x-scala2.12
+      name: '[Ad-Hoc] Silver: Complex'
+      tags:
+        entity: complex
+        entity_group: bronze_silver_gold_example
+        layer: silver
+      tasks:
+      - depends_on: []
+        description: null
+        job_cluster_key: cluster_complex_etl_silver
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        - whl: /Workspace${workspace.file_path}/example_configuration/dependencies/wheels/some_other_wheel.whl
+        max_retries: 1
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_non_standard/task_silver/databricks_config.json
+          python_file: example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_non_standard/task_silver/pipeline_runner.py
+        task_key: silver_complex
+    _ad-hoc__silver_simple:
+      job_clusters:
+      - job_cluster_key: cluster_simple_etl_silver
+        new_cluster:
+          custom_tags:
+            ResourceClass: SingleNode
+            deployed_by: databricks_deployment_helper
+            entity: simple
+            entity_group: bronze_silver_gold_example
+            layer: silver
+          data_security_mode: SINGLE_USER
+          driver_node_type_id: c5a.2xlarge
+          enable_elastic_disk: true
+          node_type_id: c5a.2xlarge
+          num_workers: 0
+          policy_id: ${var.job_policy_id}
+          runtime_engine: STANDARD
+          spark_conf:
+            spark.databricks.cluster.profile: singleNode
+            spark.master: local[*]
+          spark_version: 14.3.x-scala2.12
+      name: '[Ad-Hoc] Silver: Simple'
+      tags:
+        entity: simple
+        entity_group: bronze_silver_gold_example
+        layer: silver
+      tasks:
+      - depends_on: []
+        description: null
+        job_cluster_key: cluster_simple_etl_silver
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        max_retries: 1
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_simple/task_silver/databricks_config.json
+          python_file: example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_simple/task_silver/pipeline_runner.py
+        task_key: silver_simple
+    bronze_silver_gold_complex:
+      job_clusters:
+      - job_cluster_key: cluster_complex_etl_gold
+        new_cluster:
+          custom_tags:
+            ResourceClass: SingleNode
+            deployed_by: databricks_deployment_helper
+            entity: complex
+            entity_group: bronze_silver_gold_example
+            layer: gold
+          data_security_mode: SINGLE_USER
+          driver_node_type_id: c5a.4xlarge
+          enable_elastic_disk: true
+          node_type_id: c5a.4xlarge
+          num_workers: 0
+          policy_id: ${var.job_policy_id}
+          runtime_engine: STANDARD
+          spark_conf:
+            spark.databricks.cluster.profile: singleNode
+            spark.master: local[*]
+          spark_version: 14.3.x-scala2.12
+      - job_cluster_key: cluster_complex_etl_gold
+        new_cluster:
+          custom_tags:
+            ResourceClass: SingleNode
+            deployed_by: databricks_deployment_helper
+            entity: complex
+            entity_group: bronze_silver_gold_example
+            layer: gold
+          data_security_mode: SINGLE_USER
+          driver_node_type_id: c5a.4xlarge
+          enable_elastic_disk: true
+          node_type_id: c5a.4xlarge
+          num_workers: 0
+          policy_id: ${var.job_policy_id}
+          runtime_engine: STANDARD
+          spark_conf:
+            spark.databricks.cluster.profile: singleNode
+            spark.master: local[*]
+          spark_version: 14.3.x-scala2.12
+      - job_cluster_key: cluster_complex_etl_silver
+        new_cluster:
+          custom_tags:
+            ResourceClass: SingleNode
+            deployed_by: databricks_deployment_helper
+            entity: complex
+            entity_group: bronze_silver_gold_example
+            layer: silver
+          data_security_mode: SINGLE_USER
+          driver_node_type_id: c5a.4xlarge
+          enable_elastic_disk: true
+          node_type_id: c5a.4xlarge
+          num_workers: 0
+          policy_id: ${var.job_policy_id}
+          runtime_engine: STANDARD
+          spark_conf:
+            spark.databricks.cluster.profile: singleNode
+            spark.master: local[*]
+          spark_version: 14.3.x-scala2.12
+      - job_cluster_key: cluster_complex_etl_bronze
+        new_cluster:
+          custom_tags:
+            ResourceClass: SingleNode
+            deployed_by: databricks_deployment_helper
+            entity: complex
+            entity_group: bronze_silver_gold_example
+            layer: bronze
+          data_security_mode: SINGLE_USER
+          driver_node_type_id: m5dn.xlarge
+          enable_elastic_disk: true
+          node_type_id: m5dn.xlarge
+          num_workers: 0
+          policy_id: ${var.job_policy_id}
+          runtime_engine: STANDARD
+          spark_conf:
+            spark.databricks.cluster.profile: singleNode
+            spark.master: local[*]
+          spark_version: 14.3.x-scala2.12
+      name: 'Bronze Silver Gold: Complex'
+      schedule:
+        pause_status: PAUSED
+        quartz_cron_expression: 0 0 1 ? * *
+        timezone_id: Europe/Vienna
+      tags:
+        entity: complex
+        entity_group: bronze_silver_gold_example
+        layer: bronze_silver_gold
+      tasks:
+      - depends_on:
+        - task_key: silver_complex
+        description: null
+        job_cluster_key: cluster_complex_etl_gold
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        max_retries: 1
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_non_standard/task_gold_1/databricks_config.json
+          python_file: example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_non_standard/task_gold_1/pipeline_runner.py
+        task_key: gold_1
+      - depends_on:
+        - task_key: silver_complex
+        description: null
+        job_cluster_key: cluster_complex_etl_gold
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        max_retries: 1
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_non_standard/task_gold_2/databricks_config.json
+          python_file: example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_non_standard/task_gold_2/pipeline_runner.py
+        task_key: gold_2
+      - depends_on:
+        - task_key: bronze_complex
+        description: null
+        job_cluster_key: cluster_complex_etl_silver
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        - whl: /Workspace${workspace.file_path}/example_configuration/dependencies/wheels/some_other_wheel.whl
+        max_retries: 1
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_non_standard/task_silver/databricks_config.json
+          python_file: example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_non_standard/task_silver/pipeline_runner.py
+        task_key: silver_complex
+      - depends_on: []
+        description: null
+        job_cluster_key: cluster_complex_etl_bronze
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        - whl: /Workspace${workspace.file_path}/example_configuration/dependencies/wheels/some_other_wheel.whl
+        - pypi:
+            package: pyyaml == 6.0
+        max_retries: 1
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_non_standard/task_bronze/databricks_config.json
+          - --secrets-config-location
+          - /Workspace${workspace.file_path}/shared_config/secrets_config.json
+          - --kafka-config-location
+          - /Workspace${workspace.file_path}/shared_config/kafka_config.json
+          python_file: example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_non_standard/task_bronze/pipeline_runner.py
+        task_key: bronze_complex
+    bronze_silver_gold_simple:
+      job_clusters:
+      - job_cluster_key: cluster_simple_etl_gold
+        new_cluster:
+          custom_tags:
+            ResourceClass: SingleNode
+            deployed_by: databricks_deployment_helper
+            entity: simple
+            entity_group: bronze_silver_gold_example
+            layer: gold
+          data_security_mode: SINGLE_USER
+          driver_node_type_id: c5a.4xlarge
+          enable_elastic_disk: true
+          node_type_id: c5a.4xlarge
+          num_workers: 0
+          policy_id: ${var.job_policy_id}
+          runtime_engine: STANDARD
+          spark_conf:
+            spark.databricks.cluster.profile: singleNode
+            spark.master: local[*]
+          spark_version: 14.3.x-scala2.12
+      - job_cluster_key: cluster_simple_etl_silver
+        new_cluster:
+          custom_tags:
+            ResourceClass: SingleNode
+            deployed_by: databricks_deployment_helper
+            entity: simple
+            entity_group: bronze_silver_gold_example
+            layer: silver
+          data_security_mode: SINGLE_USER
+          driver_node_type_id: c5a.2xlarge
+          enable_elastic_disk: true
+          node_type_id: c5a.2xlarge
+          num_workers: 0
+          policy_id: ${var.job_policy_id}
+          runtime_engine: STANDARD
+          spark_conf:
+            spark.databricks.cluster.profile: singleNode
+            spark.master: local[*]
+          spark_version: 14.3.x-scala2.12
+      - job_cluster_key: cluster_simple_etl_bronze
+        new_cluster:
+          custom_tags:
+            ResourceClass: SingleNode
+            deployed_by: databricks_deployment_helper
+            entity: simple
+            entity_group: bronze_silver_gold_example
+            layer: bronze
+          data_security_mode: SINGLE_USER
+          driver_node_type_id: m5dn.xlarge
+          enable_elastic_disk: true
+          node_type_id: m5dn.xlarge
+          num_workers: 0
+          policy_id: ${var.job_policy_id}
+          runtime_engine: STANDARD
+          spark_conf:
+            spark.databricks.cluster.profile: singleNode
+            spark.master: local[*]
+          spark_version: 14.3.x-scala2.12
+      name: 'Bronze Silver Gold: Simple'
+      schedule:
+        pause_status: PAUSED
+        quartz_cron_expression: 0 0 1 ? * *
+        timezone_id: Europe/Vienna
+      tags:
+        entity: simple
+        entity_group: bronze_silver_gold_example
+        layer: bronze_silver_gold
+      tasks:
+      - depends_on:
+        - task_key: silver_simple
+        description: null
+        job_cluster_key: cluster_simple_etl_gold
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        max_retries: 1
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_simple/task_gold/databricks_config.json
+          python_file: example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_simple/task_gold/pipeline_runner.py
+        task_key: gold_simple
+      - depends_on:
+        - task_key: bronze_simple
+        description: null
+        job_cluster_key: cluster_simple_etl_silver
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        max_retries: 1
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_simple/task_silver/databricks_config.json
+          python_file: example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_simple/task_silver/pipeline_runner.py
+        task_key: silver_simple
+      - depends_on: []
+        description: null
+        job_cluster_key: cluster_simple_etl_bronze
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        - whl: /Workspace${workspace.file_path}/example_configuration/dependencies/wheels/some_other_wheel.whl
+        - pypi:
+            package: pyyaml == 6.0
+        max_retries: 1
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_simple/task_bronze/databricks_config.json
+          - --secrets-config-location
+          - /Workspace${workspace.file_path}/shared_config/secrets_config.json
+          - --kafka-config-location
+          - /Workspace${workspace.file_path}/shared_config/kafka_config.json
+          python_file: example_configuration/bundle_pipelines/jobs/bronze_silver_gold/example_pipeline_simple/task_bronze/pipeline_runner.py
+        task_key: bronze_simple
+    complex_pipeline_example_multi_task_explicit:
+      job_clusters:
+      - job_cluster_key: single_node
+        new_cluster:
+          custom_tags:
+            ResourceClass: SingleNode
+            deployed_by: databricks_deployment_helper
+            entity: multi_task_explicit
+            entity_group: example
+            layer: complex_pipelines
+          data_security_mode: SINGLE_USER
+          driver_node_type_id: m5dn.xlarge
+          enable_elastic_disk: true
+          node_type_id: m5dn.xlarge
+          num_workers: 0
+          policy_id: ${var.job_policy_id}
+          runtime_engine: STANDARD
+          spark_conf:
+            spark.databricks.cluster.profile: singleNode
+            spark.master: local[*]
+          spark_version: 14.3.x-scala2.12
+      - job_cluster_key: multi_node_small
+        new_cluster:
+          custom_tags:
+            deployed_by: databricks_deployment_helper
+            entity: multi_task_explicit
+            entity_group: example
+            layer: complex_pipelines
+          data_security_mode: SINGLE_USER
+          driver_node_type_id: c5a.4xlarge
+          enable_elastic_disk: true
+          node_type_id: c5a.4xlarge
+          num_workers: 2
+          policy_id: ${var.job_policy_id}
+          runtime_engine: STANDARD
+          spark_conf: {}
+          spark_version: 14.3.x-scala2.12
+      - job_cluster_key: multi_node_big
+        new_cluster:
+          custom_tags:
+            deployed_by: databricks_deployment_helper
+            entity: multi_task_explicit
+            entity_group: example
+            layer: complex_pipelines
+          data_security_mode: SINGLE_USER
+          driver_node_type_id: c5a.8xlarge
+          enable_elastic_disk: true
+          node_type_id: c5a.8xlarge
+          num_workers: 32
+          policy_id: ${var.job_policy_id}
+          runtime_engine: STANDARD
+          spark_conf: {}
+          spark_version: 14.3.x-scala2.12
+      name: 'Complex Pipeline: Example Multi Task Explicit'
+      tags:
+        entity: multi_task_explicit
+        entity_group: example
+        layer: complex_pipelines
+      tasks:
+      - depends_on: []
+        description: Does some loading
+        job_cluster_key: single_node
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        max_retries: 1
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/complex_pipelines/example_multi_task_explicit/task_loading/databricks_config.json
+          python_file: example_configuration/bundle_pipelines/jobs/complex_pipelines/example_multi_task_explicit/task_loading/pipeline_runner.py
+        task_key: loading
+      - depends_on:
+        - task_key: loading
+        description: Does some processing
+        job_cluster_key: multi_node_small
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        max_retries: 0
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/complex_pipelines/example_multi_task_explicit/task_processing/databricks_config.json
+          - example_configuration/bundle_pipelines/jobs/complex_pipelines/example_multi_task_explicit/task_processing/extra_file_needed_for_processing.json
+          python_file: example_configuration/bundle_pipelines/jobs/complex_pipelines/example_multi_task_explicit/task_processing/pipeline_runner.py
+        task_key: processing
+      - depends_on:
+        - task_key: processing
+        description: Does some zipping
+        job_cluster_key: multi_node_small
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        max_retries: 1
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/complex_pipelines/example_multi_task_explicit/task_zipping/databricks_config.json
+          python_file: example_configuration/bundle_pipelines/jobs/complex_pipelines/example_multi_task_explicit/task_zipping/pipeline_runner.py
+        task_key: zipping
+      - depends_on:
+        - task_key: zipping
+        description: Does some deleting
+        job_cluster_key: multi_node_small
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        max_retries: 1
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/complex_pipelines/example_multi_task_explicit/task_deleting/databricks_config.json
+          python_file: example_configuration/bundle_pipelines/jobs/complex_pipelines/example_multi_task_explicit/task_deleting/pipeline_runner.py
+        task_key: deleting
+      - depends_on:
+        - task_key: deleting
+        description: Does some publishing
+        job_cluster_key: multi_node_small
+        libraries:
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        - whl: dist/YOUR_PROJECT-+1734336358-py3-none-any.whl
+        - pypi:
+            package: glom == 22.1.0
+        - pypi:
+            package: spooq == 3.3.9
+        - pypi:
+            package: pika == 1.2.1
+        max_retries: 1
+        spark_python_task:
+          parameters:
+          - DEV
+          - example_configuration/bundle_pipelines/jobs/complex_pipelines/example_multi_task_explicit/task_publishing/databricks_config.json
+          - example_configuration/bundle_pipelines/jobs/complex_pipelines/example_multi_task_explicit/task_publishing/configuration_for_publishing_service.json
+          python_file: example_configuration/bundle_pipelines/jobs/complex_pipelines/example_multi_task_explicit/task_publishing/pipeline_runner.py
+        task_key: publishing

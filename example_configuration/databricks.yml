@@ -1,0 +1,54 @@
+# This is a Databricks asset bundle definition for your_project.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: your_project
+
+artifacts:
+  your_project_wheel:
+    type: whl
+    build: poetry build
+    path: .
+
+include:
+  - "dab_deployment_generated_by_ddh.yml"
+
+run_as:
+  service_principal_name: ${workspace.current_user.userName}
+
+variables:
+  job_policy_id:
+    description: |
+      This is an example of a jop policy already defined in databricks where we don't know yet the id, only the name.
+    lookup:
+      cluster_policy: your_job_policy_name
+
+workspace:
+  root_path: /.bundle/${bundle.name}
+
+sync:
+  exclude:
+    - .git/*
+    - .venv/*
+    - .history/*
+
+targets:
+  DEV:
+    default: true
+    workspace:
+      root_path: /.bundle/${bundle.name}/${bundle.target}
+      host: https://<your_dev_workspace>.cloud.databricks.com
+
+  TEST:
+    # Necessary to separate job and test deployments on DEV. Otherwise, it can be that all jobs
+    # not included in the deployment will be deleted (terraform design).
+    workspace:
+      root_path: /.bundle/${bundle.name}/${bundle.target}
+      host: https://<your_dev_workspace>.cloud.databricks.com
+
+    sync:
+      include:
+        - tests/databricks
+
+  PRD:
+    workspace:
+      host: https://<your_prd_workspace>.cloud.databricks.com
