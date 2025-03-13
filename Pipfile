@@ -6,8 +6,8 @@ name = "pypi"
 [packages]
 databricks-deployment-helper = {editable = true, path = "."}
 ipython = "*"
-pyyaml = "*"
-pytest = "==6.2.5"
+pyyaml = "6.0"
+pytest = "==7.2.0"
 glom = "==23.3.0"
 gitpython = "==3.1.43"
 
